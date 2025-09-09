@@ -1,0 +1,154 @@
+# sql 함수
+# select 함수(값) -> 기본구조    min() 단돈으로 사용x
+
+# 절대값 abs()
+select abs(-34),abs(1),abs(-256);
+
+# 문자열의 길이 측정 : LENGTH(문자열);  -> 공백도 문자에 포함되서 숫자 카운트
+select length('select abs(-34),abs(1),abs(-256);');
+
+# 빈올림 함수 round()
+select round(3.14567,2);
+select round(3.14547,2);
+
+# 올림 ceil(), 내림 floor()
+select ceil(4.1);
+select floor(4.9);
+
+# 연산자를 통한 계산 +,-,*,/,%(나머지),div(몫), mod(나머지)
+select 7/2;
+select 7*2;
+select 7+2;
+select 7-2;
+select 7 % 2;
+select 7 div 2;
+select 7 mod 2;
+
+#  power(제곱),sqrt(루트),sign(음수,양수)인지 확인하는 함수 -> 양수면 1로 표시 음수면 -1로 표시
+select power(4,3);
+select sqrt(3);
+select sign(3), sign(-78);
+
+#truncate(값,자리수)버림
+select round(2.2345,3), truncate(2.2345,3);
+select round(1153.2345,-2), truncate(1153.2345,-2);
+
+#문자열 함수
+#문자의 길이를 알아보는 함수 char_length 글자 수를 세고 length 획을 센다.
+select char_length('my sql'), length('my sql');
+select char_length('홍 길동'), length('홍 길동');
+
+#문자를 연결하는 concat(),concat_ws()
+select concat('this','is','mysql')as concat1;
+select concat('this',' is ','mysql')as concat2;
+select concat_ws(' ','this',' is ','mysql')as concat_ws1;
+select concat_ws(' VS ','헐크',' 아이언맨 ','타노스')as concat_ws2;
+select concat_ws(' -','02','1234','5678')as concat_ws2;
+
+# 대문자를 소문자로 lower(), 소문자를 대문자로 upper()
+select lower('ABCD');
+select upper('abcd');
+
+# 문자열의 자리수를 일정하게 하고 빈 공간을 지저한 문자로 채우는 람수
+#lpad(값,자리수,채울문자) / rpad(값,자리수,채울문자)
+select lpad('sqld',7,'#');
+select lpad('35000',10,' ');
+select lpad('350',10,' ');
+select rpad('sql',7,'%');
+
+#문자에 공백을 없애는 함수 ltrim(문자열), rtrim(문자열)
+select ltrim('    sql    ');
+select rtrim('    sql    ');
+
+#문자열의 양쪽 공백을 모두 없애는 함수  trim(문자열)
+select trim('    sql  study  ');
+
+#문자열 잘라내는 함수 left(문자열, 길이), right(문자열, 길이)
+select left('이것이 mysql이다',4), right('이것이 mysql이다',5);
+
+# 문자열을 중간에서 잘라내는 함수 substr(문자열,시작위치,길이)
+#sql은 숫자가 1부터 시작, 다른 프로그래밍 언어는 0부터 시작
+select substr('이것이 mysql이다',3,3);
+
+# 날짜형 함수
+select curdate(); #현재 년월일 표시
+select curtime(); #현재 시간 출력
+select now(); #현재 년월일 + 현재 시간
+select current_timestamp(); #현재 년월일 + 현재 시간
+
+#영문 요일 표시 함수 dayname(날짜)
+select dayname(now()); # 요일
+select dayname('2025-09-10');
+
+# 요일을 번효로 표시
+#dayofweek(날짜), 일(1),월(2),화(3),수(4),목(5),금(6),토(7)
+
+select dayofweek(now());
+
+# 1년 중 오늘이 몇일 쨰인지 dayogyear(날짜)
+select dayofyear(now());
+
+# 날짜를 세분화해서 보는 함수들
+# 현재 달의 마지막 날이 몇 일까지 있는지 출려하는 함수 last_day()
+select last_day('2025-11-01');
+
+
+# 입력한 날짜에서 연도만 추출 year()
+select year(now());
+
+# 입력한 날짜에서 월만 출력 MONTH
+select month(now());
+# 입력한 날짜에서 일만 day()
+select day(now());
+
+# 입력한 날짜에서 월만 영문을 출력
+select monthname('2025-09-09');
+
+# 몇 분기인지 출력
+select quarter(now());
+
+# 몇 주차인지 weekofyear()
+select weekofyear(now());
+
+# 날짜와 시간이 같이 있는 데이터에서 날짜와 시간을 구분해 주는 함수
+select now();
+select date(now());
+select time(now());
+
+# 날짜를 지정한 날 수 만큼 더하는 함수
+select date_add(now(), interval 5 day);
+select adddate(now(),5);
+
+# 날짜를 지정하는 날 수 만큼 뺴는 함수
+select subdate(now(),5);
+
+# 날짜와 시간을 년월 날 시간, 분초 단위로 추출하는 함수
+#extract(옵션, from 날짜시간)
+select extract(year_month from now());
+select extract(day_hour from now()); # 이 버전에 오류로 now대신 직접 해야됨
+select extract(minute_second from now());
+
+# 날짜1에서 날짜2를 뺀 일 수 계산
+select datediff(now(), '2024-12-05');
+
+# 날짜 포멧 함수 - 지정한 형식에 맞춰서 출력해주는 함수
+# %Y 4자리 연도, %y 2자리 연도
+#%M 월의 영문표기, %m의 2자리 월 표시 %b 월의 축약 영문표기 ,Jan,Fed
+# %d 2자리 일 표기, %e1자리 일 표기
+select date_format(now(),'%d-%b-%Y');
+select date_format(now(),'%d-%m-%y');
+select date_format(now(),'%d-%M-%Y');
+
+#시간 표기
+# %H 24, %h 12시간 %p AM,PM 표시alter
+# %i 2자리수 분 표시
+# %S 2자리수 초 표시 
+# %T 24시간 표기법으로 시:분:초
+# %r 12시간 표기법 시:분:초 AM/PM
+# %W 요일의 영문표기, %w 숫자로 요일 표시  (일0,월1,화2,수3,목4,금5,토6)
+
+select date_format(now(), '%H : %i : %S');
+select date_format(now(), '%p %h : %i : %S');
+select date_format(now(), '%T');
+select date_format(now(), '%r');
+select date_format(now(), '%W %w');
